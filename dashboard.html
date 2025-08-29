@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Seizure Management Dashboard</title>
+		<style>
+			html,
+			body {
+				height: 100%;
+				width: 100%;
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+			}
+			iframe {
+				width: 100%;
+				height: 100%;
+				border: none;
+				display: none; /* hidden until loaded */
+			}
+			/* Loader overlay */
+			#loader {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: #fff;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				font-size: 1.5rem;
+				color: #333;
+				z-index: 9999;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="loader">⏳ Loading dashboard...</div>
+		<iframe id="myFrame" allowfullscreen></iframe>
+
+		<script>
+			// Get query params from current page URL
+			const urlParams = new URLSearchParams(window.location.search);
+			const patientId = urlParams.get("patient_id") || "";
+
+			const iframe = document.getElementById("myFrame");
+			const loader = document.getElementById("loader");
+
+			iframe.src = `http://192.168.68.55:8501/?patient_id=${encodeURIComponent(
+				patientId
+			)}`;
+
+			// Show iframe only when it fully loads
+			iframe.onload = function () {
+				loader.style.display = "none";
+				iframe.style.display = "block";
+			};
+		</script>
+	</body>
+</html>
